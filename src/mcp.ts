@@ -130,7 +130,7 @@ const mcplistFiles = tool(
 )
 
 export const fileSystemMCP = createSdkMcpServer({
-  name: "my-custom-tools",
+  name: "filesystem-mcp",
   version: "1.0.0",
   tools: [
     mcpReadTool,
