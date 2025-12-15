@@ -3,8 +3,8 @@ on:
   pull_request:
 
 jobs:
-  lint:
-    name: Lint and Format
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
