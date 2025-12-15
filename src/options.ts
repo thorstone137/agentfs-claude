@@ -11,7 +11,7 @@ import { fileSystemMCP } from "./mcp";
 import { consoleInput } from "./cli";
 import { filesToParseExtensions } from "./filesystem";
 
-async function denyFileSystemToolsHook(
+export async function denyFileSystemToolsHook(
   // eslint-disable-next-line
   _input: PreToolUseHookInput,
   // eslint-disable-next-line

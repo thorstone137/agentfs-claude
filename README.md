@@ -72,7 +72,14 @@ If you wish to contribute, make sure that your code follows the formatting and l
 pnpm run check
 ```
 
-Once your code is compliant with formatting and linting, you can create a pull request from a non-default branch of your fork (e.g. `feat/awesome-feature`, `fix/great-fix`).
+And that all the tests still pass (add new ones if needed):
+
+```bash
+# here node v22+ is needed
+pnpm run test
+```
+
+Once your code is compliant with formatting and linting and all tests are passing, you can create a pull request from a non-default branch of your fork (e.g. `feat/awesome-feature`, `fix/great-fix`).
 
 ## License
 

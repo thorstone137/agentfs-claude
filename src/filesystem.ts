@@ -37,7 +37,7 @@ export const filesToParseExtensions = [
   ".xlsx",
 ];
 
-async function getFilesInDir({
+export async function getFilesInDir({
   dirPath = "./",
   toIgnore = ["node_modules", "dist", "pnpm-lock.yaml", ".git"],
 }: {
