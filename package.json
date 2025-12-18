@@ -48,7 +48,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@openai/codex-sdk": "npm:empty-module@1.0.0"
+      "@openai/codex-sdk": "-"
     }
   }
 }
