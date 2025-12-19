@@ -67,7 +67,7 @@ async function handleItemStart(event: ThreadEvent) {
           ),
         ),
       );
-      if (typeof event.item.error != "undefined") {
+      if (event.item.error) {
         console.log(
           red(
             bold(
@@ -76,7 +76,7 @@ async function handleItemStart(event: ThreadEvent) {
           ),
         );
       } else {
-        if (typeof event.item.result != "undefined") {
+        if (event.item.result) {
           let finalResult = "";
           for (const block of event.item.result.content) {
             if (block.type == "text") {
@@ -136,7 +136,7 @@ async function handleItemUpdated(event: ThreadEvent) {
           ),
         ),
       );
-      if (typeof event.item.error != "undefined") {
+      if (event.item.error) {
         console.log(
           red(
             bold(
@@ -145,7 +145,7 @@ async function handleItemUpdated(event: ThreadEvent) {
           ),
         );
       } else {
-        if (typeof event.item.result != "undefined") {
+        if (event.item.result) {
           let finalResult = "";
           for (const block of event.item.result.content) {
             if (block.type == "text") {
@@ -201,7 +201,7 @@ async function handleItemCompleted(event: ThreadEvent) {
           ),
         ),
       );
-      if (typeof event.item.error != "undefined") {
+      if (event.item.error) {
         console.log(
           red(
             bold(
@@ -210,7 +210,7 @@ async function handleItemCompleted(event: ThreadEvent) {
           ),
         );
       } else {
-        if (typeof event.item.result != "undefined") {
+        if (event.item.result) {
           let finalResult = "";
           for (const block of event.item.result.content) {
             if (block.type == "text") {

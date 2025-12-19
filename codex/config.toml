@@ -1,12 +1,3 @@
-model = "gpt-4.1"
-model_provider = "openai-chat-completions"
-
-[model_providers.openai-chat-completions]
-name = "OpenAI using Chat Completions"
-base_url = "https://api.openai.com/v1"
-env_key = "OPENAI_API_KEY"
-wire_api = "responses"
-
 [features]
 rmcp_client = true
 

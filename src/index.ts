@@ -30,6 +30,10 @@ async function main() {
   workflow.handle([startEvent], async (_context, event) => {
     await renderLogo();
     if (notFromScratch) {
+      fs.copyFileSync("fs.db", "fsMcp.db");
+      if (fs.existsSync("fs.db-wal")) {
+        fs.copyFileSync("fs.db-wal", "fsMcp.db-wal");
+      }
       return filesRegisteredEvent.with();
     }
     const wd = event.data.workingDirectory;
@@ -45,6 +49,10 @@ async function main() {
           "Could not register the files within the AgentFS file system: check writing permissions in the current directory",
       });
     } else {
+      fs.copyFileSync("fs.db", "fsMcp.db");
+      if (fs.existsSync("fs.db-wal")) {
+        fs.copyFileSync("fs.db-wal", "fsMcp.db-wal");
+      }
       return filesRegisteredEvent.with();
     }
   });
@@ -53,7 +61,9 @@ async function main() {
   workflow.handle([filesRegisteredEvent], async (_context, _event) => {
     console.log(
       bold(
-        green("All the files have been uploaded to the AgentFS filesystem, what would you like to do now?"),
+        green(
+          "All the files have been uploaded to the AgentFS filesystem, what would you like to do now?",
+        ),
       ),
     );
     return requestPromptEvent.with();
@@ -75,7 +85,9 @@ async function main() {
     } else {
       try {
         await runCodex(event.data.prompt, { resumeSession: event.data.resume });
+        return stopEvent.with({ success: true, error: null });
       } catch (error) {
+        console.error(error);
         return stopEvent.with({ success: false, error: JSON.stringify(error) });
       }
     }
@@ -118,11 +130,15 @@ async function main() {
       plan: planMode,
     }),
   );
-  const finalEvent = (await resumedContext.stream.until(stopEvent).toArray()).at(-1);
+  const finalEvent = (
+    await resumedContext.stream.until(stopEvent).toArray()
+  ).at(-1);
   if (typeof finalEvent != "undefined") {
     if ("error" in finalEvent.data) {
       if (typeof finalEvent.data.error == "string") {
-        console.log(`${bold(red("An error occurred during the workflow execution:"))} ${finalEvent.data.error}`)
+        console.log(
+          `${bold(red("An error occurred during the workflow execution:"))} ${finalEvent.data.error}`,
+        );
       }
     }
   }
