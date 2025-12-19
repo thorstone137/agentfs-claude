@@ -29,6 +29,9 @@ export async function runCodex(
 
   for await (const event of events) {
     switch (event.type) {
+      case "thread.started":
+        console.log(`Started session with ID: ${bold(event.thread_id)}`);
+        break;
       case "item.started":
         await handleItemStart(event);
         break;
@@ -118,7 +121,7 @@ async function handleItemStart(event: ThreadEvent) {
 }
 
 async function handleItemUpdated(event: ThreadEvent) {
-  if (event.type == "item.started") {
+  if (event.type == "item.updated") {
     if (event.item.type == "agent_message") {
       console.log(bold(magentaBright("Assistant updated its response...")));
       console.log(event.item.text);
@@ -185,10 +188,10 @@ async function handleItemUpdated(event: ThreadEvent) {
 async function handleItemCompleted(event: ThreadEvent) {
   if (event.type == "item.completed") {
     if (event.item.type == "agent_message") {
-      console.log(bold(magentaBright("Assistant completed its response...")));
+      console.log(bold(magentaBright("Assistant completed its response:")));
       console.log(event.item.text);
     } else if (event.item.type == "reasoning") {
-      console.log(bold(magentaBright("Assistant completed its thoughts...")));
+      console.log(bold(magentaBright("Assistant completed its thoughts:")));
       console.log(event.item.text);
     } else if (event.item.type == "mcp_tool_call") {
       console.log(

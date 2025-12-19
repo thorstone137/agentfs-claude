@@ -4,7 +4,7 @@ import { recordFiles } from "./filesystem";
 import { getAgentFS } from "./mcp";
 import { Agent } from "./claude";
 import { queryOptions } from "./options";
-import { bold } from "@visulima/colorize";
+import { bold, green, red } from "@visulima/colorize";
 import { consoleInput, renderLogo } from "./cli";
 import * as fs from "fs";
 import { runCodex } from "./codex";
@@ -53,7 +53,7 @@ async function main() {
   workflow.handle([filesRegisteredEvent], async (_context, _event) => {
     console.log(
       bold(
-        "All the files have been uploaded to the AgentFS filesystem, what would you like to do now?",
+        green("All the files have been uploaded to the AgentFS filesystem, what would you like to do now?"),
       ),
     );
     return requestPromptEvent.with();
@@ -87,7 +87,7 @@ async function main() {
   const snapshotData = await snapshot();
   let agentOfChoice = "claude";
   const chosenAgent = await consoleInput(
-    "What agent would you like to use? [codex/claude]",
+    "What agent would you like to use? [codex/claude] ",
   );
   if (chosenAgent.trim() != "") {
     agentOfChoice = chosenAgent;
@@ -118,7 +118,14 @@ async function main() {
       plan: planMode,
     }),
   );
-  await resumedContext.stream.until(stopEvent).toArray();
+  const finalEvent = (await resumedContext.stream.until(stopEvent).toArray()).at(-1);
+  if (typeof finalEvent != "undefined") {
+    if ("error" in finalEvent.data) {
+      if (typeof finalEvent.data.error == "string") {
+        console.log(`${bold(red("An error occurred during the workflow execution:"))} ${finalEvent.data.error}`)
+      }
+    }
+  }
 }
 
 await main().catch(console.error);
